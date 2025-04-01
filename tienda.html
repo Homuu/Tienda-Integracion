@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Online</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+        }
+        .productos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .producto {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px;
+            width: 200px;
+            text-align: center;
+        }
+        .producto img {
+            max-width: 100%;
+            height: auto;
+        }
+        .btn-comprar {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .carrito {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: white;
+            border: 1px solid #ddd;
+            padding: 10px;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Bienvenido a Nuestra Tienda</h1>
+    </header>
+    
+    <div class="carrito">
+        <h3>Carrito de Compras</h3>
+        <ul id="lista-carrito"></ul>
+        <p>Total: $<span id="total">0.00</span></p>
+    </div>
+    
+    <section class="productos">
+        <div class="producto" data-nombre="Producto 1" data-precio="19.99">
+            <img src="producto1.jpg" alt="Producto 1">
+            <h2>Producto 1</h2>
+            <p>$19.99</p>
+            <button class="btn-comprar">Comprar</button>
+        </div>
+        <div class="producto" data-nombre="Producto 2" data-precio="29.99">
+            <img src="producto2.jpg" alt="Producto 2">
+            <h2>Producto 2</h2>
+            <p>$29.99</p>
+            <button class="btn-comprar">Comprar</button>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const botonesComprar = document.querySelectorAll('.btn-comprar');
+            const listaCarrito = document.getElementById('lista-carrito');
+            const totalElemento = document.getElementById('total');
+            let total = 0;
+
+            botonesComprar.forEach(boton => {
+                boton.addEventListener('click', function() {
+                    const producto = this.parentElement;
+                    const nombre = producto.getAttribute('data-nombre');
+                    const precio = parseFloat(producto.getAttribute('data-precio'));
+
+                    const item = document.createElement('li');
+                    item.textContent = `${nombre} - $${precio.toFixed(2)}`;
+                    listaCarrito.appendChild(item);
+                    
+                    total += precio;
+                    totalElemento.textContent = total.toFixed(2);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
