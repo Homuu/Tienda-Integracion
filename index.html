@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MercadoPump</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body,
+      html {
+        height: 100%;
+      }
+
+      .container {
+        flex: 1;
+      }
+
+      .navbar {
+        background-color: rgba(118, 6, 133, 0.6); /* tu color personalizado */
+      }
+      .product-card img {
+        height: 200px;
+        object-fit: cover;
+      }
+
+      .cart-item-img {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        margin-right: 10px;
+      }
+
+      footer {
+        margin-top: auto;
+      }
+    </style>
+  </head>
+  <body class="d-flex flex-column">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand fw-bold" href="#">MercadoPump</a>
+        <form class="d-flex w-50 mx-3">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Buscar productos..."
+          />
+          <button class="btn btn-dark" type="submit">Buscar</button>
+        </form>
+        <button
+          class="btn btn-outline-dark position-relative"
+          data-bs-toggle="modal"
+          data-bs-target="#cartModal"
+        >
+          🛒 Carrito
+          <span
+            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+            id="cart-count"
+            >0</span
+          >
+        </button>
+      </div>
+    </nav>
+
+    <!-- Productos -->
+    <div class="container my-4">
+      <h4>Productos Destacados</h4>
+      <div class="row g-4" id="product-list">
+        <!-- Producto 1 -->
+        <div class="col-md-4">
+          <div class="card product-card">
+            <img
+              src="Imagenes/Producto1.jpg"
+              class="card-img-top"
+              alt="Producto 1"
+            />
+            <!-- Imagen local -->
+            <div class="card-body">
+              <h5 class="card-title">$1.299.000 CLP</h5>
+              <p class="card-text">Pump</p>
+              <button
+                class="btn btn-primary add-to-cart"
+                data-name="Pump"
+                data-price="1299000"
+                data-image="Imagenes/Producto1.jpg"
+              >
+                Agregar al carrito
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Producto 2 -->
+        <div class="col-md-4">
+          <div class="card product-card">
+            <img
+              src="Imagenes/Producto2.jpg"
+              class="card-img-top"
+              alt="Producto 2"
+            />
+            <!-- Imagen local -->
+            <div class="card-body">
+              <h5 class="card-title">$850.000 CLP</h5>
+              <p class="card-text">Bidon</p>
+              <button
+                class="btn btn-primary add-to-cart"
+                data-name="Bidon"
+                data-price="850000"
+                data-image="Imagenes/Producto2.jpg"
+              >
+                Agregar al carrito
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Producto 3 -->
+        <div class="col-md-4">
+          <div class="card product-card">
+            <img
+              src="Imagenes/Producto3.jpg"
+              class="card-img-top"
+              alt="Producto 3"
+            />
+            <!-- Imagen local -->
+            <div class="card-body">
+              <h5 class="card-title">$450.000 CLP</h5>
+              <p class="card-text">Botiquin</p>
+              <button
+                class="btn btn-primary add-to-cart"
+                data-name="Botiquin"
+                data-price="450000"
+                data-image="Imagenes/Producto3.jpg"
+              >
+                Agregar al carrito
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal del carrito -->
+    <div
+      class="modal fade"
+      id="cartModal"
+      tabindex="-1"
+      aria-labelledby="cartModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Tu carrito</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Cerrar"
+            ></button>
+          </div>
+          <div class="modal-body" id="cart-items">
+            <p class="text-muted">El carrito está vacío.</p>
+          </div>
+          <div class="modal-footer">
+            <h5>Total: $<span id="cart-total">0</span> CLP</h5>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cerrar
+            </button>
+            <button type="button" class="btn btn-success">
+              Finalizar compra
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-4">
+      © 2025 MercadoPump. Todos los derechos reservados.
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const cart = [];
+      const cartCount = document.getElementById("cart-count");
+      const cartItems = document.getElementById("cart-items");
+      const cartTotal = document.getElementById("cart-total");
+
+      document.querySelectorAll(".add-to-cart").forEach((button) => {
+        button.addEventListener("click", () => {
+          const name = button.getAttribute("data-name");
+          const price = parseFloat(button.getAttribute("data-price"));
+          const image = button.getAttribute("data-image");
+
+          const item = cart.find((p) => p.name === name);
+          if (item) {
+            item.quantity++;
+          } else {
+            cart.push({ name, price, quantity: 1, image });
+          }
+          updateCartUI();
+        });
+      });
+
+      function updateCartUI() {
+        cartCount.textContent = cart.reduce(
+          (sum, item) => sum + item.quantity,
+          0
+        );
+
+        if (cart.length === 0) {
+          cartItems.innerHTML = `<p class="text-muted">El carrito está vacío.</p>`;
+          cartTotal.textContent = "0";
+          return;
+        }
+
+        cartItems.innerHTML = `
+        <ul class="list-group">
+          ${cart
+            .map(
+              (item) => `
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <img src="${item.image}" class="cart-item-img" alt="${item.name}">
+              ${item.name} x ${item.quantity}
+              <span>$${item.price * item.quantity} CLP</span>
+            </li>
+          `
+            )
+            .join("")}
+        </ul>
+      `;
+
+        const total = cart.reduce(
+          (sum, item) => sum + item.price * item.quantity,
+          0
+        );
+        cartTotal.textContent = total.toFixed(2);
+      }
+    </script>
+  </body>
+</html>
