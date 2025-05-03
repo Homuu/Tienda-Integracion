@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pago Confirmado</title>
+</head>
+<body>
+    <h1>¡Pago exitoso!</h1>
+    <p>Código de autorización: {{ respuesta.authorization_code }}</p>
+    <p>Monto: {{ respuesta.amount }} CLP</p>
+    <p>Orden de compra: {{ respuesta.buy_order }}</p>
+</body>
+</html>

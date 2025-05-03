@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MercadoPump - Pago Rechazado</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="{% static 'tienda/css/estilo.css' %}" rel="stylesheet" />
+  </head>
+  <body class="d-flex flex-column">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand fw-bold" href="#">MercadoPump</a>
+      </div>
+    </nav>
+
+    <div class="container my-4">
+      <h4>El pago ha sido rechazado</h4>
+      <p>Lo sentimos, tu transacción no ha sido aprobada. Puedes intentar nuevamente o elegir otro método de pago.</p>
+      <a href="{% url 'index' %}" class="btn btn-primary">Volver a la tienda</a>
+      <a href="{% url 'pago' %}" class="btn btn-warning">Intentar de nuevo</a>
+    </div>
+
+    <footer class="bg-dark text-white text-center py-3 mt-4">
+      © 2025 MercadoPump. Todos los derechos reservados.
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
