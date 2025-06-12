@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect
 from transbank.webpay.webpay_plus.transaction import Transaction, WebpayOptions
 from transbank.common.integration_type import IntegrationType 
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
+from .forms import RegistroForm
+from django.contrib import messages
 import random
 import string
 
@@ -44,12 +48,11 @@ def retorno(request):
         response = Transaction(options).commit(token)
 
         if response['status'] == 'AUTHORIZED':
-            return render(request, 'retorno.html', {'respuesta': response})
+            return render(request, 'tienda/retorno.html', {'respuesta': response})
         else:
-            return render(request, 'rechazo.html', {'respuesta': response})
+            return render(request, 'tienda/rechazo.html', {'respuesta': response})
     else:
-        return render(request, 'rechazo.html', {'mensaje': 'Token no recibido'})
-
+        return render(request, 'tienda/rechazo.html', {'mensaje': 'Token no recibido'})
 # Vista de confirmación de pago (transacción exitosa)
 def confirmacion(request):
     return render(request, 'tienda/confirmacion.html')
@@ -76,3 +79,32 @@ def index(request):
         producto.precio_formateado = locale.currency(producto.precio, grouping=True)
     
     return render(request, 'tienda/index.html', {'productos': productos})
+
+def registro(request):
+    if request.method == 'POST':
+        form = RegistroForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, '¡Usuario registrado con éxito!')
+            return redirect('login')
+    else:
+        form = RegistroForm()
+    return render(request, 'tienda/registro.html', {'form': form})
+
+def iniciar_sesion(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('index') 
+        else:
+            messages.error(request, 'Nombre de usuario o contraseña incorrectos.')
+
+    return render(request, 'tienda/login.html')
+def cerrar_sesion(request):
+    logout(request)
+    return redirect('index')

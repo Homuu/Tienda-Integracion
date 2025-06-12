@@ -12,31 +12,43 @@
     <link href="{% static 'tienda/css/estilo.css' %}" rel="stylesheet" />
   </head>
   <body class="d-flex flex-column">
-    <nav class="navbar navbar-expand-lg navbar-light">
-      <div class="container d-flex justify-content-between align-items-center">
-        <a class="navbar-brand fw-bold" href="#">MercadoPump</a>
-        <form class="d-flex w-50 mx-3">
-          <input
-            class="form-control me-2"
-            type="search"
-            placeholder="Buscar productos..."
-          />
-          <button class="btn btn-dark" type="submit">Buscar</button>
-        </form>
-        <button
-          class="btn btn-outline-dark position-relative"
-          data-bs-toggle="modal"
-          data-bs-target="#cartModal"
-        >
-          🛒 Carrito
-          <span
-            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-            id="cart-count"
-            >0</span
-          >
-        </button>
-      </div>
-    </nav>
+   <nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container d-flex justify-content-between align-items-center">
+    <a class="navbar-brand fw-bold" href="{% url 'index' %}">MercadoPump</a>
+
+    <form class="d-flex w-50 mx-3">
+      <input
+        class="form-control me-2"
+        type="search"
+        placeholder="Buscar productos..."
+      />
+      <button class="btn btn-dark" type="submit">Buscar</button>
+    </form>
+
+    <div class="d-flex align-items-center gap-2">
+      {% if user.is_authenticated %}
+        <span class="me-2">Hola, {{ user.username }}</span>
+        <a href="{% url 'logout' %}" class="btn btn-danger">Cerrar sesión</a>
+      {% else %}
+        <a href="{% url 'login' %}" class="btn btn-primary">Iniciar sesión</a>
+        <a href="{% url 'registro' %}" class="btn btn-success">Registrarse</a>
+        
+      {% endif %}
+      
+      <button
+        class="btn btn-outline-dark position-relative"
+        data-bs-toggle="modal"
+        data-bs-target="#cartModal"
+      >
+        🛒 Carrito
+        <span
+          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+          id="cart-count"
+        >0</span>
+      </button>
+    </div>
+  </div>
+</nav>
 
     <div class="container my-4">
       <h4>Productos Destacados</h4>
